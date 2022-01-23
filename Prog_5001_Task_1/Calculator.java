@@ -52,13 +52,16 @@ public Calculator()
 {
     //Calling calcGUI method, set calculator title and size 
     super("Calculator");
-    setSize(350, 420);
+    setSize(400, 450);
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     calcGUI();
 
 }
     
+/**
+ * calcGUI method is used to create calculator GUI 
+ */
     public void calcGUI()
 {
     // Creating Top panel for calculator text area
@@ -71,21 +74,18 @@ public Calculator()
     // creating centerpanellayout for calculator buttons from 0 to 9 and equals to =
     JPanel centerPanel = new JPanel();  
     centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    GridLayout centerPanelLayout = new GridLayout(5,3,0,0);
-    centerPanelLayout.setHgap(10);
-    centerPanelLayout.setVgap(10);
+    GridLayout centerPanelLayout = new GridLayout(5,3,10,10);
     centerPanel.setLayout(centerPanelLayout);
 
     // creating rightpanel for operators and other functionalties button
     JPanel rightPanel = new JPanel();
     rightPanel.setBorder(BorderFactory.createEmptyBorder(10, 0,10, 10));
-    GridLayout rightPanelLayout = new GridLayout(5,2,8,5);
-    rightPanelLayout.setHgap(10);
-    rightPanelLayout.setVgap(10);
+    GridLayout rightPanelLayout = new GridLayout(5,2,10,10);
     rightPanel.setLayout(rightPanelLayout);
     
     // adding header label
     headerLabel.setBackground(Color.decode("#a5c3e6"));
+    headerLabel.setAlignment(Label.CENTER);
     topPanel.add(headerLabel);
 
     //Adjusting text field font, alignment, size and value        
@@ -205,6 +205,7 @@ public Calculator()
     backspace.addActionListener(this);
     rightPanel.add(backspace);
     
+
     // creating button minus with action perform listner as well as color and adding to panel
     minus.setActionCommand("-");
     minus.addActionListener(this);
@@ -216,6 +217,7 @@ public Calculator()
     clear.addActionListener(this);
     clear.setBackground(Color.decode("#cbcbcb"));
     rightPanel.add(clear);
+    rightPanel.setPreferredSize(new Dimension(180,50));
     
     // creating button * with action perform listner as well as color and adding to panel
     times.setActionCommand("*");
@@ -254,6 +256,10 @@ public Calculator()
     rightPanel.add(off);
 }
     
+/**
+ * actionPerformed method is used to check which button is pressed and perform according to their command
+ * Paramenter ActionEvent
+ */
 public void actionPerformed(ActionEvent e)  
 {
     // creating variable for operator , result, firstnumber as well as calcText for getting text from textfield
@@ -423,7 +429,7 @@ public void actionPerformed(ActionEvent e)
     }
     
     // creating conditions for button clear click
-    if (command.equals(">>")) {
+    if (command.equals("<<")) {
         int len = calcText.length();
         calcText = calcText.substring(0, len-1);
     }
@@ -442,6 +448,11 @@ public void actionPerformed(ActionEvent e)
     
 }
 
+/**
+ * findValueInBraces is used to check to check if brackets exists in calculator text or not
+ * Parameters it takes finalStr parameter in data type string
+ * return data type string
+ */
 public static String findValueInBraces(String finalStr) {
 
     while (finalStr.contains("(") && finalStr.contains(")")) {
@@ -454,6 +465,11 @@ public static String findValueInBraces(String finalStr) {
 
 }
     
+/**
+ * calculate method is used to perform calculation it is an static method
+ * parameters it takes finalString in string data type
+ * return data type string
+ */
 public static String calculate(String finalString) {
 
     while (finalString.contains("(") && finalString.contains(")")) {
@@ -475,6 +491,11 @@ public static String calculate(String finalString) {
 
 }
 
+/**
+ * isNum method is used to check if operater is used in caltext or not
+ * parameter it take str in data type string
+ * retuen data type boolean 
+ */
 public static boolean isNum(String str) {
     if (str.contains("+") || str.contains("-") || str.contains("*")
             || str.contains("/")) {
@@ -483,6 +504,11 @@ public static boolean isNum(String str) {
     return true;
 }
 
+/**
+ * getOperandPosition method is used to perform calcution as their importance
+ * parameters str in data type string
+ * return List<Integer> as data type
+ */
 public static List<Integer> getOperandPosition(String str) {
 
     List<Integer> integers = new ArrayList<Integer>();
@@ -507,6 +533,10 @@ public static List<Integer> getOperandPosition(String str) {
     return integers;
 }
 
+/**
+ * getValue method is used to take input from caltext and perform calcutaion
+ * parameters str in data type string , pos in data type integer
+ */
 public static String getValue(String str, int pos) {
     double finalVal = 0;
     double a = Double.parseDouble(str.substring(0, pos));
