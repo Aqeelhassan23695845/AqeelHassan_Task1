@@ -41,7 +41,7 @@ public class Calculator extends JFrame implements ActionListener
   JButton closeBracket=new JButton(")");
   JButton apostrophy=new JButton("!");
   JButton off=new JButton("OFF");
-  JButton backspace=new JButton(">>");
+  JButton backspace=new JButton("<<");
   JButton point=new JButton(".");
   Label headerLabel =new Label("My PROG5001 - Calculator(Version)");
 
@@ -200,7 +200,7 @@ public Calculator()
     rightPanel.add(plus);
     
     // creating button backspace with action perform listner as well as color and adding to panel
-    backspace.setActionCommand(">>");
+    backspace.setActionCommand("<<");
     backspace.setBackground(Color.decode("#cbcbcb"));
     backspace.addActionListener(this);
     rightPanel.add(backspace);
