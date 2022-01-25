@@ -368,20 +368,20 @@ public void actionPerformed(ActionEvent e)
      
      // creating conditions for button point click
     if (command.equals(".")) {
-        if(!calcText.contains("."))
-        {
-            calcText += point.getText();
-        }
+        calcText += point.getText();
     }
     
     // creating conditions for button abs click
     if (command.equals("+/-")) {
+        int len = calcText.length();
         if(abs.equals("+"))
         {
             calcText += "-";
+            abs = "-";
         }
         else{
             calcText += "+";
+            abs = "+";
         }
     }
     
@@ -410,7 +410,7 @@ public void actionPerformed(ActionEvent e)
     
     // creating conditions for button factorial click
     if (command.equals("!")) {
-        calcText += "factorial(";
+        calcText += "!";
     }
     
     // creating conditions for button openBracket click
@@ -440,8 +440,37 @@ public void actionPerformed(ActionEvent e)
     }
     
     // creating conditions for button = click
-    if (command.equals("=")) {
-        calcText = findValueInBraces(calcText);
+    if (command.equals("=")) {  
+        int len = calcText.length();
+        int start = 0;
+        boolean lastOperator = false ,currentOperator = false;
+        boolean operatorError = false;
+        while(start < len)
+        {
+            currentOperator = !isNum(calcText.substring(start,start+1));
+            if(currentOperator == true && lastOperator == true)
+            {
+                operatorError =  true;
+            }
+            lastOperator = currentOperator;
+            start++;
+        }
+        if(operatorError == false)
+        {
+            calcText = findValueInBraces(calcText);
+        }
+        else{
+            if(calcText.contains(".."))
+            {
+                calcText = calcText + ": invalid number";
+            }
+            else{
+                calcText = calcText + ": two consecutive operators";
+            }
+            
+        }
+        
+        //calcText = findValueInBraces(calcText);
     }
     
     calText.setText(calcText);
@@ -472,22 +501,50 @@ public static String findValueInBraces(String finalStr) {
  */
 public static String calculate(String finalString) {
 
-    while (finalString.contains("(") && finalString.contains(")")) {
-        findValueInBraces(finalString);
-    }
-    while (!isNum(finalString)) {
-        List<Integer> positions = getOperandPosition(finalString);
-        int pos = positions.get(0);
-        if (positions.size() >= 2 && positions.get(1) != null) {
-            int nxtPos = positions.get(1);
-            finalString = getValue(finalString.substring(0, nxtPos), pos)
-                    + finalString.substring(nxtPos, finalString.length());
-        } else {
-            finalString = getValue(
-                    finalString.substring(0, finalString.length()), pos);
+    try{
+    
+    
+        while (finalString.contains("(") && finalString.contains(")")) {
+            findValueInBraces(finalString);
         }
+        
+        while (!isNum(finalString)) {
+            
+            List<Integer> positions = getOperandPosition(finalString);
+            
+            int pos = positions.get(0);
+            if (positions.size() >= 2 && positions.get(1) != null) {
+                int nxtPos = positions.get(1);
+                finalString = getValue(finalString.substring(0, nxtPos), pos)
+                        + finalString.substring(nxtPos, finalString.length());
+            } else {
+                finalString = getValue(
+                        finalString.substring(0, finalString.length()), pos);
+            }
+        }
+        
+        return finalString;
     }
-    return finalString;
+    catch(Exception ex)
+    {
+        //finalString = finalString.indexOf("!");
+        int facIndex = finalString.indexOf("!");
+        String factText =finalString.substring(0,facIndex);
+        
+        if(facIndex > 0)
+        {
+            int factorial = Integer.parseInt(factText);
+            int fact =1;
+            for(int i=1;i<=factorial;i++){    
+                  fact=fact*i;    
+              } 
+              finalString = String.valueOf(fact) ;
+        }
+        else{
+            finalString = finalString + ":Invalid Factorial Sign";
+        }
+        return finalString;
+    }
 
 }
 
@@ -498,7 +555,7 @@ public static String calculate(String finalString) {
  */
 public static boolean isNum(String str) {
     if (str.contains("+") || str.contains("-") || str.contains("*")
-            || str.contains("/")) {
+            || str.contains("/") || str.contains("!") || str.contains(".")) {
         return false;
     }
     return true;
@@ -528,6 +585,10 @@ public static List<Integer> getOperandPosition(String str) {
     if (str.contains("/")) {
         integers.add(str.indexOf("/"));
     }
+    
+    if (str.contains("!")) {
+        integers.add(str.indexOf("!"));
+    }
 
     Collections.sort(integers);
     return integers;
@@ -551,6 +612,9 @@ public static String getValue(String str, int pos) {
         finalVal = a + b;
     } else if (c == '-') {
         finalVal = a - b;
+    }
+    else if (c == '!') {
+        finalVal = 0;
     }
     return String.valueOf(finalVal);
 }
