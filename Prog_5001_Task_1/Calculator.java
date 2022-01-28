@@ -77,12 +77,13 @@ public Calculator()
     GridLayout centerPanelLayout = new GridLayout(5,3,10,10);
     centerPanel.setLayout(centerPanelLayout);
 
+
     // creating rightpanel for operators and other functionalties button
     JPanel rightPanel = new JPanel();
     rightPanel.setBorder(BorderFactory.createEmptyBorder(10, 0,10, 10));
     GridLayout rightPanelLayout = new GridLayout(5,2,10,10);
     rightPanel.setLayout(rightPanelLayout);
-    
+
     // adding header label
     headerLabel.setBackground(Color.decode("#a5c3e6"));
     headerLabel.setAlignment(Label.CENTER);
@@ -102,7 +103,7 @@ public Calculator()
     // creating button 1 with action perform listner as well as color and adding to panel
     one.setActionCommand("1");
     one.addActionListener(this);
-    one.setBackground(Color.decode("#cbcbcb"));
+    one.setBackground(Color.decode("#cbcbcb")); 
     centerPanel.add(one);
     
     // creating button 2 with action perform listner as well as color and adding to panel
@@ -182,7 +183,7 @@ public Calculator()
     equals2.setActionCommand("=");
     equals2.addActionListener(this);
     equals2.setBackground(Color.decode("#cbcbcb"));
-    equals2.setBorder(BorderFactory.createEmptyBorder());
+    equals2.setSize(10,20);
     centerPanel.add(equals2);
     
     // creating button = with action perform listner as well as color and adding to panel
@@ -243,7 +244,7 @@ public Calculator()
     closeBracket.setBackground(Color.decode("#cbcbcb"));
     rightPanel.add(closeBracket);
     
-    // creating button apostrophy with action perform listner as well as color and adding to panel
+    //creating button apostrophy with action perform listner as well as color and adding to panel
     apostrophy.setActionCommand("!");
     apostrophy.addActionListener(this);
     apostrophy.setBackground(Color.decode("#cbcbcb"));
@@ -373,16 +374,12 @@ public void actionPerformed(ActionEvent e)
     
     // creating conditions for button abs click
     if (command.equals("+/-")) {
-        int len = calcText.length();
-        if(abs.equals("+"))
-        {
-            calcText += "-";
-            abs = "-";
-        }
-        else{
-            calcText += "+";
-            abs = "+";
-        }
+     
+        double number = Double.parseDouble(calcText);
+        number = number * -1;
+        
+        calcText = String.valueOf(number);
+        
     }
     
     // creating conditions for button + click
@@ -533,8 +530,8 @@ public static String calculate(String finalString) {
         
         if(facIndex > 0)
         {
-            int factorial = Integer.parseInt(factText);
-            int fact =1;
+            double factorial = Double.parseDouble(factText);
+            double fact =1;
             for(int i=1;i<=factorial;i++){    
                   fact=fact*i;    
               } 
@@ -555,7 +552,7 @@ public static String calculate(String finalString) {
  */
 public static boolean isNum(String str) {
     if (str.contains("+") || str.contains("-") || str.contains("*")
-            || str.contains("/") || str.contains("!") || str.contains(".")) {
+            || str.contains("/") || str.contains("!")) {
         return false;
     }
     return true;
@@ -619,7 +616,6 @@ public static String getValue(String str, int pos) {
     return String.valueOf(finalVal);
 }
 
-    
 //Creates an instance of our class so that we can run it  
 public static void main(String[] args)  
 {  
