@@ -452,7 +452,12 @@ public void actionPerformed(ActionEvent e)
             lastOperator = currentOperator;
             start++;
         }
-        if(operatorError == false)
+        
+        if(calcText.contains(".."))
+        {
+            calcText = calcText + ": invalid number";
+        }
+        else if(operatorError == false)
         {
             calcText = findValueInBraces(calcText);
         }
