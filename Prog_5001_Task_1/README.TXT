@@ -4,9 +4,9 @@ Tell the reader (someone who does not know anything about this project)
 all they need to know. The comments should usually include at least:
 ------------------------------------------------------------------------
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
+PROJECT TITLE: Calculator 
+PURPOSE OF PROJECT: assesment 
+VERSION or DATE: 13.01.22
 HOW TO START THIS PROJECT:
-AUTHORS:
+AUTHORS: Aqeel Hassan
 USER INSTRUCTIONS:
